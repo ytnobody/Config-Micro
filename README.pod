@@ -21,10 +21,6 @@ our $VERSION = '0.01';
 
 =head1 SYNOPSIS
 
-Quick summary of what the module does.
-
-Perhaps a little code snippet.
-
     package Your::App::Class;
     use Config::Micro;
     

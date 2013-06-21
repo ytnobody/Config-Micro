@@ -61,8 +61,10 @@ sub file {
     $opts{dir} ||= File::Spec->catdir('..', 'etc'); 
     my ($caller_class, $caller_file, $line) = caller();
     my $basedir = dirname($caller_file);
-    my $path_separator = $^O eq 'MSWin32' ? qr/\\/ : qr/\//;
-    my $confdir = $opts{dir} =~ /^$path_separator/ ? $opts{dir} : File::Spec->catdir($basedir, $opts{dir});
+    my $confdir = File::Spec->file_name_is_absolute($opts{dir}) ? 
+        $opts{dir} : 
+        File::Spec->catdir($basedir, $opts{dir})
+    ;
     return File::Spec->catfile($confdir, $opts{env}. '.pl');
 }
 

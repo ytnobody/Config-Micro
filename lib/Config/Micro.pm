@@ -1,6 +1,5 @@
 package Config::Micro;
 
-use 5.010;
 use strict;
 use warnings FATAL => 'all';
 use File::Spec;
@@ -56,8 +55,8 @@ Default is '../etc' .
 
 sub file {
     my ($class, %opts) = @_;
-    $opts{env} //= $ENV{PLACK_ENV} || 'development';
-    $opts{dir} //= File::Spec->catdir('..', 'etc'); 
+    $opts{env} ||= $ENV{PLACK_ENV} || 'development';
+    $opts{dir} ||= File::Spec->catdir('..', 'etc'); 
     my ($caller_class, $caller_file, $line) = caller();
     my $basedir = dirname($caller_file);
     my $confdir = $opts{dir} =~ /^\// ? $opts{dir} : File::Spec->catdir($basedir, $opts{dir});

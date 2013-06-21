@@ -22,8 +22,10 @@ our $VERSION = '0.01';
 
     package Your::App::Class;
     use Config::Micro;
+    use File::Spec;
     
-    my $conf_file = Config::Micro->file( env => 'development', dir => '../etc' );
+    my $conf_dir  = File::Spec->catdir(qw/.. etc/);
+    my $conf_file = Config::Micro->file( env => 'development', dir => $conf_dir );
     my $config = require( $conf_file );
     ...
 
@@ -59,7 +61,8 @@ sub file {
     $opts{dir} ||= File::Spec->catdir('..', 'etc'); 
     my ($caller_class, $caller_file, $line) = caller();
     my $basedir = dirname($caller_file);
-    my $confdir = $opts{dir} =~ /^\// ? $opts{dir} : File::Spec->catdir($basedir, $opts{dir});
+    my $path_separator = $^O eq 'MSWin32' ? qr/\\/ : qr/\//;
+    my $confdir = $opts{dir} =~ /^$path_separator/ ? $opts{dir} : File::Spec->catdir($basedir, $opts{dir});
     return File::Spec->catfile($confdir, $opts{env}. '.pl');
 }
 

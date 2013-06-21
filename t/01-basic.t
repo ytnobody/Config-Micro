@@ -1,10 +1,10 @@
 use strict;
 use warnings;
 use Test::More;
-use FindBin;
 use File::Temp qw/ tempfile tempdir /;
 use File::Spec;
-use lib "$FindBin::Bin/TestApp/lib";
+use File::Basename 'dirname';
+use lib ( File::Spec->catdir(dirname(__FILE__), qw/TestApp lib/) );
 use TestApp;
 
 subtest 'default' => sub {
